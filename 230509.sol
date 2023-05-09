@@ -126,4 +126,51 @@ contract Mapping {
     function getC(bytes memory _key) public view returns(uint) {
         return c[_key];
     }
+
+
+    struct Student {
+        uint number;
+        string name;
+        string[] classes;
+    }
+
+    // 어떤 선생님을 넣었을 때, 선생님의 담당 학생을 반환받고싶은 경우!
+    mapping(string => Student) Teacher_Student;
+
+    function setTeacher_Student(string memory _Teacher, uint _number, string memory _name, string[] memory _classes) public {
+       Teacher_Student[_Teacher] = Student(_number, _name, _classes);
+    }
+
+    function getTeacher_Student(string memory _Teacher) public view returns(Student memory) {
+        return Teacher_Student[_Teacher];
+    }
+}
+
+
+contract Mapping2 {
+    struct Student {
+        uint number;
+        string name;
+        string[] classes;
+    }
+
+    mapping(string => Student) Teacher_Student;
+    
+    mapping(string => Student[]) Teacher_Classes;
+
+    function setTeacher_Student(string memory _teacher, uint _number, string memory _name, string[] memory _classes) public {
+        Teacher_Student[_teacher] = Student(_number, _name, _classes);
+    }
+
+    function getTeacher_Student(string memory _key) public view returns(Student memory) {
+        return Teacher_Student[_key];
+    }
+
+    function setTeacher_Classes(string memory _teacher, uint _number, string memory _name, string[] memory _classes) public {
+        Teacher_Classes[_teacher].push(Student(_number, _name, _classes));
+    }
+
+    function getTeacher_Classes(string memory _teacher) public view returns(Student[] memory) {
+        return Teacher_Classes[_teacher];
+    }
 }
